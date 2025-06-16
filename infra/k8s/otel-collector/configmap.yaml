@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-collector-config
+  namespace: monitoring
+  labels:
+    app: otel-collector
+data:
+  config.yaml: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: "0.0.0.0:4317"
+          http:
+            endpoint: "0.0.0.0:4318"
+
+    exporters:
+      loki:
+        endpoint: http://loki:3300/loki/api/v1/push
+      otlp:
+        endpoint: tempo:4317
+        tls:
+          insecure: true
+      prometheus:
+        endpoint: "0.0.0.0:8889"
+      debug:
+        verbosity: detailed
+        sampling_initial: 1
+        sampling_thereafter: 1
+
+    connectors:
+      spanmetrics:
+        dimensions:
+          - name: http.method
+          - name: http.url
+          - name: http.target
+          - name: http.route
+          - name: http.server_name
+          - name: http.status_code
+          - name: http.request_content_length
+          - name: http.response_content_length
+          - name: http.request.body
+          - name: http.request.header.x-access-token
+          - name: http.request.header.authorization
+          - name: db.system
+          - name: db.connection_string
+          - name: db.user
+          - name: db.name
+          - name: db.statement
+          - name: db.operation
+          - name: db.sql.table
+          - name: db.query
+
+    processors:
+      batch:
+        send_batch_size: 500
+        timeout: 5s
+      attributes:
+        actions:
+          - key: http.request.body
+            action: insert
+          - key: http.request.header.x-access-token
+            action: insert
+          - key: http.request.header.authorization
+            action: insert
+          - key: service.name
+            from_attribute: telemetry.sdk.name
+            action: insert
+          - key: loki.resource.labels
+            value: "service.name,trace_id"
+            action: insert
+
+    service:
+      pipelines:
+        logs:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [loki, debug]
+        traces:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [spanmetrics, otlp, debug]
+        metrics/spanmetrics:
+          receivers: [spanmetrics]
+          processors: [batch]
+          exporters: [prometheus, debug]

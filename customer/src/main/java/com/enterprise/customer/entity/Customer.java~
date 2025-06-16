@@ -1,0 +1,37 @@
+package com.enterprise.customer.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.annotations.GenericGenerator;
+
+import java.util.UUID;
+
+@Entity
+@Table(name = "customers", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+public class Customer {
+
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(updatable = false, nullable = false)
+    private UUID id;
+
+    @NotBlank
+    private String firstName;
+
+    private String middleName;
+
+    @NotBlank
+    private String lastName;
+
+    @Email
+    @NotBlank
+    private String email;
+
+    @NotBlank
+    private String phone;
+
+    // Getters and setters
+}
+
