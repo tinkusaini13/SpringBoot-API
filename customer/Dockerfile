@@ -13,7 +13,12 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre
 
 WORKDIR /app
+# Set OpenTelemetry version
+ENV OTEL_VERSION=1.32.0
 
+# Download OpenTelemetry Java Agent
+RUN curl -L https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v${OTEL_VERSION}/opentelemetry-javaagent.jar \
+    -o opentelemetry-javaagent.jar
 # Copy built jar from builder
 COPY --from=builder /app/target/customer-0.0.1-SNAPSHOT.jar app.jar
 
