@@ -1,0 +1,64 @@
+pipeline {
+    agent any
+    environment {
+        IMAGE_URL = "sainiji/"
+        APP_IMAGE = "spring-api"
+        IMAGE_TAG = "latest"
+        FULL_IMAGE_URL = "${IMAGE_URL}${APP_IMAGE}:${IMAGE_TAG}"
+        BRANCH = "main"
+        DEPLOYMENT_NAME = "customer"
+        NAMESPACE = "default"
+        GIT_URL = "https://github.com/tinkusaini13/SpringBoot-API.git"
+        DOCKER_HUB_CRED = "dockerhub_creds"
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: "${BRANCH}", url: "${GIT_URL}"
+            }
+        }
+
+        stage('Check Java & Maven Version') {
+            steps {
+                sh 'java -version'
+                sh 'mvn -version'
+            }
+        }
+
+        stage('Maven Build') {
+            steps {
+                sh 'cd customer && mvn clean package -DskipTests'
+            }
+        }
+        
+        stage('Build Docker Image') {
+            steps {
+                sh "cd customer && docker build -t ${FULL_IMAGE_URL} ."
+            }
+        }     
+        
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CRED}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push ${FULL_IMAGE_URL}
+                    '''
+                }
+            }
+        }
+        stage('Deploy MYSQL and Customer API to Kubernetes') {
+            steps {
+                script {
+                    sh """
+                        kubectl apply -f infra/k8s/mysql
+                        sleep 30
+                        kubectl apply -f infra/k8s/customer-api/
+                        kubectl rollout status deployment/${DEPLOYMENT_NAME} -n ${NAMESPACE}
+                    """
+                }
+            }
+        }
+    }
+}
