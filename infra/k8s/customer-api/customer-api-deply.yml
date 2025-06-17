@@ -34,7 +34,6 @@ spec:
     app: customer-api
   ports:
     - protocol: TCP
-      port: 8080 # Port exposed by the service
-      targetPort: 8080 # Port on the pod/container
-      nodePort: 30080 # Optional: External port on the node (must be between 30000–32767)
-  type: NodePort
+      port: 8080       # ClusterIP service port
+      targetPort: 8080 # Container port
+  type: ClusterIP
