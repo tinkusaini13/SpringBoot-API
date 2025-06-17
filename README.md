@@ -184,7 +184,11 @@ All Kubernetes manifests are located in: **infra/k8s**
 | `Jenkinsfile-Observability` | Deploy observability stack (Grafana, Prometheus) |
 
 
-▶️ Running the Project
+**-------------------------------------------------------------------------------------------------**
+         ▶️  **Running the Project Steps**         
+**-------------------------------------------------------------------------------------------------**
+
+
 
 ✅ Prerequisites for Jenkins Setup
 
