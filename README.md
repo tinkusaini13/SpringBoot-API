@@ -209,9 +209,33 @@ Make sure your Jenkins server has:
 - Loki
 - Tempo
 
+
 ## 📷 Project observability and log dashboard
 
-![logs](https://raw.githubusercontent.com/tinkusaini13/SpringBoot-API/main/images/image.png)
-![observability](https://raw.githubusercontent.com/tinkusaini13/SpringBoot-API/main/images/observability.jpeg)
+✅ Step-by-Step: Manual Configuration in Grafana UI
+
+🎯 Goal
+
+- Add Prometheus, Loki, and Tempo as data sources
+
+- Import the OpenTelemetry APM dashboard
+
+🔧 Step 1: Access Grafana
+📊 Step 2: Add Prometheus Data Source
+📜 Step 3: Add Loki Data Source
+🔍 Step 4: Add Tempo Data Source
+📈 Step 5: Import OpenTelemetry APM Dashboard
+
+- In the sidebar, go to + → Import
+
+- Under “Import via Grafana.com”, enter:
+
+- **17476**
+
+![observability](https://raw.githubusercontent.com/tinkusaini13/SpringBoot-API/main/images/Observability.png)
+
+
+
+![logs](https://raw.githubusercontent.com/tinkusaini13/SpringBoot-API/main/images/Loki.png)
 
 
