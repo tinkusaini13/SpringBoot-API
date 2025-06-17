@@ -1,193 +1,208 @@
-# SpringBoot-API
+# 📦 SpringBoot-API
 
-## Overview
-
-This project demonstrates a complete lifecycle of a RESTful API for a `Customer` entity, covering:
-
-- Spring Boot API development with Swagger
-- Integration testing
-- Full observability stack with Prometheus, Grafana, Loki, Tempo, and OpenTelemetry
-- Containerization with Docker
-- Kubernetes deployment via Minikube
-- CI/CD with Jenkins
-- CLI-based API consumer
+A comprehensive RESTful API for managing `Customer` entities, designed with observability, containerization, and CI/CD best practices.
 
 ---
 
-## 📌 Project Structure
- 
+## 📌 Overview
+
+This project showcases the complete development lifecycle of a Spring Boot-based REST API with the following key features:
+
+- 🔧 API development with Spring Boot & Swagger
+- ✅ Unit & integration testing
+- 📈 Observability with Prometheus, Grafana, Loki, Tempo & OpenTelemetry
+- 🐳 Docker containerization
+- ☸️ Kubernetes deployment (Minikube compatible)
+- 🔄 CI/CD using Jenkins
+- 🖥️ CLI-based API consumer (Work in Progress)
+
+---
+📁 Project Structure (Table Format)
+
+## 📁 Project Structure
+
+| Path                          | Description                                      |
+|-------------------------------|--------------------------------------------------|
+| `SpringBoot-API/`             | Root directory                                  |
+| ├── `customer/`               | Spring Boot application                         |
+| │   ├── `src/`                | Java source code                                |
+| │   ├── `Dockerfile`          | Dockerfile for building the app image           |
+| │   └── `pom.xml`             | Maven build file                                |
+| ├── `infra/`                  | Infrastructure-related files                    |
+| │   └── `k8s/`                | Kubernetes manifests for deployment             |
+| ├── `jenkins-pipelines/`      | Jenkins pipeline definitions                    |
+| │   ├── `Jenkinsfile-App`     | Jenkinsfile for building and deploying the app  |
+| │   └── `Jenkinsfile-Observability` | Jenkinsfile for deploying observability stack |
+| └── `README.md`               | Project documentation                           |
+
+
 ---
 
 ## 🚀 Step-by-Step Implementation
 
 ### ✅ Step 1: API Development
 
-- Technology: Java 17, Spring Boot, Maven
-- Documentation: Swagger UI (http://localhost:8080/swagger-ui.html)
-- Database: MySQL (containerized)
-- Entity: `Customer`
+- **Language**: Java 17
+- **Framework**: Spring Boot
+- **Build Tool**: Maven
+- **Entity**: `Customer`
   - `id` (UUID, PK)
-  - `firstName` (String)
-  - `middleName` (String, nullable)
-  - `lastName` (String)
-  - `email` (String, unique)
-  - `phone` (String)
+  - `firstName`, `middleName` (nullable), `lastName`
+  - `email` (unique)
+  - `phone`
+- **Documentation**: Swagger UI ([http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html))
+- **Database**: MySQL (Dockerized)
 
-
-
+---
 
 ## ✨ Features
 
-- [x] CRUD operations for Customer entity
-- [x] OpenAPI (Swagger) documentation
+- [x] CRUD operations for Customer
+- [x] Swagger/OpenAPI documentation
 - [x] MySQL database integration
 - [x] Docker containerization
-- [x] Kubernetes deployment-ready
-- [x] Jenkins-based CI/CD pipeline
-- [x] Observability: Logs, Metrics, Traces
-- [x] CLI-based API consumer (WIP)
+- [x] Kubernetes-ready deployment
+- [x] Jenkins CI/CD pipeline
+- [x] Full observability: Logs, Metrics, Traces
+- [x] CLI-based API consumer 
 
-
-
+---
 
 ## 📖 About
 
-Describe the purpose of the project, e.g.:
-
-> This is a RESTful API built using Spring Boot that provides full CRUD operations for a `Customer` entity. It includes observability using Prometheus, Grafana, Loki, and Tempo, and is production-ready with Docker and Kubernetes deployment. CI/CD is managed with Jenkins.
+> This Spring Boot-based REST API enables full CRUD functionality for managing customers. It’s equipped with a complete observability stack (Prometheus, Grafana, Loki, Tempo) and is production-ready with Docker and Kubernetes deployments. CI/CD is fully automated using Jenkins.
 
 ---
-
-
 
 ## 🛠 Tech Stack
 
-
-- Java 21, Spring Boot
-- MySQL
-- Docker, Docker Compose
-- Kubernetes (Minikube/Kind compatible)
-- Jenkins
-- Prometheus + Grafana
-- Loki + Tempo
-- OpenTelemetry
+| Category        | Tools/Technologies                    |
+|-----------------|----------------------------------------|
+| Backend         | Java 17, Spring Boot                  |
+| API Docs        | Swagger (OpenAPI)                     |
+| Database        | MySQL (Dockerized)                    |
+| Containerization| Docker, Docker Compose                |
+| Orchestration   | Kubernetes       |
+| CI/CD           | Jenkins                               |
+| Observability   | Prometheus, Grafana, Loki, Tempo      |
+| Tracing         | OpenTelemetry                         |
 
 ---
 
-## ⚙️ Setup
+## ⚙️ Setup Instructions
 
 ### ✅ Prerequisites
+
+Make sure the following are installed:
 
 - Java 17+
 - Maven
 - Docker & Docker Compose
-- Minikube or Kubernetes
-- Jenkins (optional for CI/CD)
-
-
-
-## 📊 Observability
-
-| Tool       | Purpose     | Access URL              |
-|------------|-------------|--------------------------|
-| Prometheus | Metrics     | [http://localhost:9090](http://localhost:9090) |
-| Grafana    | Dashboards  | [http://localhost:3000](http://localhost:3000) |
-| Loki       | Logs        | Accessible via Grafana   |
-| Tempo      | Traces      | Accessible via Grafana   |
-
-
-## 📚 API Reference
-
-### Swagger UI
-
-- URL: http://localhost:8080/swagger-ui.html
-
-- Endpoints:
-
-## 📡 API Endpoints
-
-| Method | Endpoint              | Description            |
-|--------|------------------------|------------------------|
-| GET    | `/api/customers`       | Get all customers      |
-| POST   | `/api/customers`       | Create a new customer  |
-| GET    | `/api/customers/{id}`  | Get customer by ID     |
-| PUT    | `/api/customers/{id}`  | Update customer by ID  |
-| DELETE | `/api/customers/{id}`  | Delete customer by ID  |
-
----
-
-## 📊 Observability
-
-| Tool       | Purpose     | Access URL                        |
-|------------|-------------|-----------------------------------|
-| Prometheus | Metrics     | [http://localhost:9090](http://localhost:9090) |
-| Grafana    | Dashboards  | [http://localhost:3000](http://localhost:3000) |
-| Loki       | Logs        | Accessible via Grafana            |
-| Tempo      | Traces      | Accessible via Grafana            |
-
-
-
-## 🔁 CI/CD
-
-### Jenkins Pipelines:
-
-- **Jenkinsfile-App**: Builds, tests, pushes Docker image, deploys to K8s
-- **Jenkinsfile-Observability-Stack:** Deploys monitoring stack
-
-
-✅ Testing
-
-### Run Unit & Integration Tests
-
-     cd customer
-    ./mvnw test
-
-## 🛢️ Database (MySQL)
-
-| Property      | Value           |
-|---------------|-----------------|
-| Host          | `mysql` (from Kubernetes/Docker) |
-| Port          | `3306`          |
-| Database Name | `customerdb`    |
-| Username      | `root`          |
-| Password      | `root`          |
-
-> ⚠️ **Note:** For production environments, avoid hardcoding credentials. Use Kubernetes Secrets, Docker Secrets, or environment variable injection securely.
-
-
-
-## 📦 Containerization
-
-- **Spring Boot API**
-  - Located at: `customer/`
-  - Dockerfile path: `customer/Dockerfile`
-
-## ☸️ Kubernetes
-
-- Kubernetes manifests and configurations:
-  - Located in: `infra/k8s/`
-
-
-
-# How Can Run This Project Steps:
-
-🚀 Getting Started
-
-✅ Prerequisites
-
-Make sure you have the following installed and properly configured on your Jenkins server:
-
-- Jenkins (with access to Docker socket)
-
-- Docker
-
-- kubectl
-
-- Git
+- Kubernetes (Minikube or Kind)
+- Jenkins
 
 📥 Clone the Repository
 
     git clone https://github.com/tinkusaini13/SpringBoot-API.git
     cd SpringBoot-API/jenkins-pipelines
+
+
+🛢️ Database Configuration (MySQL)
+
+| Property      | Value                             |
+| ------------- | --------------------------------- |
+| Host          | `mysql` (Docker/K8s service name) |
+| Port          | `3306`                            |
+| Database Name | `customerdb`                      |
+| Username      | `root`                            |
+| Password      | `root`                            |
+
+
+
+⚠️ Note: For production, use Secrets or environment variables instead of hardcoded credentials.
+
+
+
+📡 API Endpoints
+
+| Method | Endpoint              | Description             |
+| ------ | --------------------- | ----------------------- |
+| GET    | `/api/customers`      | Retrieve all customers  |
+| POST   | `/api/customers`      | Create new customer     |
+| GET    | `/api/customers/{id}` | Retrieve customer by ID |
+| PUT    | `/api/customers/{id}` | Update customer by ID   |
+| DELETE | `/api/customers/{id}` | Delete customer by ID   |
+
+
+📚 API Documentation
+
+Swagger UI: http://localhost:8080/swagger-ui.html
+
+
+📊 Observability Dashboard
+
+| Tool       | Purpose    | Access URL                                     |
+| ---------- | ---------- | ---------------------------------------------- |
+| Prometheus | Metrics    | [http://localhost:9090](http://localhost:9090) |
+| Grafana    | Dashboards | [http://localhost:3000](http://localhost:3000) |
+| Loki       | Logs       | Accessible via Grafana                         |
+| Tempo      | Traces     | Accessible via Grafana                         |
+
+
+🧪 Testing
+
+🔍 Run Unit & Integration Tests
+
+    cd customer
+    mvn clean test
+
+
+📦 Containerization
+Spring Boot API Service
+
+- **Directory**: customer
+
+- **Dockerfile Path**: customer/Dockerfile
+
+☸️ Kubernetes Deployment
+
+All Kubernetes manifests are located in: **infra/k8s**
+
+- Apply resources using:
+
+        kubectl apply -f infra/k8s/
+
+
+
+🔁 CI/CD with Jenkins
+
+📂 Jenkins Pipelines
+
+| Pipeline File               | Description                                      |
+| --------------------------- | ------------------------------------------------ |
+| `Jenkinsfile-App`           | Build, test, dockerize, and deploy application   |
+| `Jenkinsfile-Observability` | Deploy observability stack (Grafana, Prometheus) |
+
+
+▶️ Running the Project
+
+✅ Prerequisites for Jenkins Setup
+
+Make sure your Jenkins server has:
+
+- Jenkins (with access to Docker)
+- Docker
+- kubectl
+- Git
+- Maven
+
+### Note:
+
+####  Make Sure these pods are running state
+
+- Prometheus
+- Grafana
+- Loki
+- Tempo
 
 
