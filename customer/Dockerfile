@@ -22,9 +22,6 @@ RUN curl -L https://github.com/open-telemetry/opentelemetry-java-instrumentation
 # Copy built jar from builder
 COPY --from=builder /app/target/customer-0.0.1-SNAPSHOT.jar app.jar
 
-# Copy OpenTelemetry agent directly from local context
-COPY opentelemetry-javaagent.jar .
-
 EXPOSE 8080
 
 # Set environment variables
