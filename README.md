@@ -209,6 +209,57 @@ Make sure your Jenkins server has:
 - Loki
 - Tempo
 
+# API Usage (cURL Examples) 
+
+### How can access Applicaion:
+
+- Port Forward the Service 
+
+    kubectl port-forward service/customer-api 8080:8080
+
+
+🔸 Create a Customer (POST)
+
+    curl -X POST http://localhost:8080/api/customers \
+    -H "Content-Type: application/json" \
+    -d '{
+    "firstName": "Jtrae",
+    "middleName": "Ba.",
+    "lastName": "Svath",
+    "email": "jadae.smiaath@example.com",
+    "phone": "+1-655-987-65433"
+    }'
+
+🔹 Get All Customers (GET)
+
+    curl -X GET http://localhost:8080/api/customers
+
+🔹 Get a Customer by ID (GET)
+
+    curl -X GET http://localhost:8080/api/customers/{id}
+
+Replace {id} with the actual customer ID, e.g.:
+
+    curl -X GET http://localhost:8080/api/customers/31120464-c64d-44ac-bb65-ff623f7c3593
+
+
+🔸 Update a Customer (PUT)
+
+    curl -X PUT http://localhost:8080/api/customers/{id} \
+    -H "Content-Type: application/json" \
+    -d '{
+    "firstName": "UpdatedFirst",
+    "middleName": "UpdatedMiddle",
+    "lastName": "UpdatedLast",
+    "email": "updated@example.com",
+    "phone": "+1-000-111-2222"
+    }'
+
+
+❌ Delete a Customer (DELETE)
+
+    curl -X DELETE http://localhost:8080/api/customers/{id}
+
 
 ## 📷 Project observability and log dashboard
 
