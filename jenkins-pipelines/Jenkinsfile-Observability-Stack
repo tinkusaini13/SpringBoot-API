@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: "main", url: "https://github.com/tinkusaini13/SpringBoot-API.git"
+            }
+        }
+
+        stage('Install Helm') {
+            steps {
+                sh '''
+                    curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+                    helm version
+                '''
+            }
+        }
+
+        stage('Create Namespace') {
+            steps {
+                sh '''
+                    if ! kubectl get ns monitoring >/dev/null 2>&1; then
+                        echo "Creating 'monitoring' namespace..."
+                        kubectl create ns monitoring
+                    else
+                        echo "Namespace 'monitoring' already exists. Skipping."
+                    fi
+                '''
+            }
+        }
+
+        stage('Deploy monitoring-stack') {
+            steps {
+                sh '''
+                    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+                    helm repo update
+
+                    RELEASE_NAME="monitoring-stack"
+                    NAMESPACE="monitoring"
+
+                    if helm status $RELEASE_NAME -n $NAMESPACE >/dev/null 2>&1; then
+                        echo "Helm release '$RELEASE_NAME' already exists in namespace '$NAMESPACE'. Skipping install."
+                    else
+                        echo "Installing Helm release '$RELEASE_NAME'..."
+                        helm install $RELEASE_NAME prometheus-community/kube-prometheus-stack -n $NAMESPACE
+                    fi
+                '''
+            }
+        }
+
+        stage('Deploy Prometheus, Loki, Tempo, and Otel Collector') {
+            steps {
+                sh '''
+                    kubectl apply -f infra/k8s/tempo/
+                    kubectl apply -f infra/k8s/prometheus/
+                    kubectl apply -f infra/k8s/otel-collector/
+                    kubectl apply -f infra/k8s/loki/
+                '''
+            }
+        }
+    }
+}
