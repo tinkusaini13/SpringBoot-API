@@ -209,4 +209,9 @@ Make sure your Jenkins server has:
 - Loki
 - Tempo
 
+## 📷 Project observability and log dashboard
+
+![logs](https://raw.githubusercontent.com/tinkusaini13/SpringBoot-API/main/images/image.png)
+![observability](https://raw.githubusercontent.com/tinkusaini13/SpringBoot-API/main/images/observability.jpeg)
+
 
